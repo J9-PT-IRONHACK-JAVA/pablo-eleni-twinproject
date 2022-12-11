@@ -1,0 +1,16 @@
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/j9_hello_coffee_web
+    username: ironhacker
+    password: 1r0nh4ck3r2022!*Blu
+  main:
+    banner-mode: "off"
+
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: create
+logging:
+  level:
+    root: off
