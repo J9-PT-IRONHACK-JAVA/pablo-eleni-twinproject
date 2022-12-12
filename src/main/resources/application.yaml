@@ -1,16 +1,9 @@
-
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/j9_hello_coffee_web
+    url: jdbc:mysql://localhost:3306/j9_trivia
     username: ironhacker
     password: 1r0nh4ck3r2022!*Blu
-  main:
-    banner-mode: "off"
-
   jpa:
-    show-sql: false
+    show-sql: true
     hibernate:
       ddl-auto: create
-logging:
-  level:
-    root: off
