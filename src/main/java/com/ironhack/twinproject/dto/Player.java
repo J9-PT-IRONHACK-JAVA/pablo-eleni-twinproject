@@ -1,9 +1,6 @@
 package com.ironhack.twinproject.dto;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,5 +17,8 @@ public class Player {
     private Long id;
     private Long password;
     private String name;
-    private int totalPoints;
+
+    @ManyToOne
+    @JoinColumn (name = "points_id")
+    private Points points;
 }
