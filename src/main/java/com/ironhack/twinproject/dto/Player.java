@@ -15,10 +15,10 @@ public class Player {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long password;
+    private String password;
     private String name;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn (name = "points_id")
     private Points points;
 }

@@ -1,13 +1,9 @@
 package com.ironhack.twinproject.dto;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
 
 @Entity
 @Data
@@ -25,7 +21,7 @@ public class Points {
     private int carsPoints;
     private int totalPoints;
 
-    @OneToOne(mappedBy = "player")
+    @OneToOne(mappedBy = "points")
     private Player player;
 
     public Points(int theOlympicsPoints,
