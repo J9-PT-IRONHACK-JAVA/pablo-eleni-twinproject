@@ -21,4 +21,8 @@ public class Player {
     private Long password;
     private String name;
     private int totalPoints;
+
+    public Player(String name) {
+        this.name = name;
+    }
 }
