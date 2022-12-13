@@ -18,7 +18,14 @@ public class Player {
     private String password;
     private String name;
 
+
     @OneToOne
     @JoinColumn (name = "points_id")
     private Points points;
+
+    private int totalPoints;
+
+    public Player(String name) {
+        this.name = name;
+    }
 }
