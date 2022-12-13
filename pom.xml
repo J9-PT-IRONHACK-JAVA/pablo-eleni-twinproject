@@ -20,11 +20,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-<<<<<<< Updated upstream
-			<artifactId>spring-boot-starter-data-jdbc</artifactId>
-=======
 			<artifactId>spring-boot-starter-webflux</artifactId>
->>>>>>> Stashed changes
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
