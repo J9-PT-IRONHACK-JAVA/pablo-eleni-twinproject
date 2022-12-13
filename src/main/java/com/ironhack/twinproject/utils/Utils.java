@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
 @Service
 @RequiredArgsConstructor
 public class Utils {
@@ -43,17 +42,8 @@ public class Utils {
             System.out.println("Sleep interrupted");
         }
     }
-    public final Pattern VALID_EMAIL_ADDRESS_REGEX =
-            Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
-
-    public boolean validateEmail(String emailStr) {
-        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(emailStr);
-        return matcher.find();
-    }
 
     public static void printWithColor(String text, String color){
         System.out.println(color + text + ConsoleColors.RESET);
     }
-
-
 }
