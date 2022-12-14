@@ -6,18 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+
 @RestController
-@RequestMapping ("questions")
+@RequestMapping("questions")
 public class QuestionController {
 
+    @Autowired
+    QuestionProxy questionProxy;
 
-    private QuestionProxy questionProxy;
-
-
-    @GetMapping ("/{category}")
+    @GetMapping("/{category}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public CategoryQuestionsList getQuestionsList (@PathVariable int category) {
-        return questionProxy.getQuestionListByCategory (category);
+    public CategoryQuestionsList getQuestionsList(@PathVariable int category){
+        return questionProxy.getQuestionListByCategory(category);
     }
-
 }
