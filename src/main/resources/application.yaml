@@ -5,5 +5,8 @@ spring:
     password: 1r0nh4ck3r
   jpa:
     show-sql: true
+    generate-ddl : true
     hibernate:
       ddl-auto: create
+    profiles:
+      active: demo-data

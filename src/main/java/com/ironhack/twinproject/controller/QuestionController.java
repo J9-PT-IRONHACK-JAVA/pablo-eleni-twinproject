@@ -2,22 +2,21 @@ package com.ironhack.twinproject.controller;
 
 import com.ironhack.twinproject.dto.CategoryQuestionsList;
 import com.ironhack.twinproject.proxy.QuestionProxy;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping ("questions")
+@RequestMapping("questions")
+@RequiredArgsConstructor
 public class QuestionController {
+    private final QuestionProxy questionProxy;
 
 
-    private QuestionProxy questionProxy;
-
-
-    @GetMapping ("/{category}")
+    @GetMapping
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public CategoryQuestionsList getQuestionsList (@PathVariable int category) {
-        return questionProxy.getQuestionListByCategory (category);
-    }
-
+    public CategoryQuestionsList getQuestionsList(int id){
+            return questionProxy.getQuestionListByCategory(id);
+        }
 }

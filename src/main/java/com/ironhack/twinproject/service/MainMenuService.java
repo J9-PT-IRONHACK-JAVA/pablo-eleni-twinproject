@@ -8,12 +8,14 @@ import org.springframework.stereotype.Service;
 import java.util.Scanner;
 @RequiredArgsConstructor
 @Service
-public class Menu {
+public class MainMenuService {
     private final Scanner scanner = new Scanner(System.in);
     static Long currentPlayerId = null;
     static Player currentPlayerLogged = null;
 
     private final PlayerService playerService;
+    private final GameMenuService gameMenuService;
+
 
     public void run() throws Exception {
         Utils.clearScreen();
@@ -57,7 +59,7 @@ public class Menu {
             switch (options[0]) {
                 case "1": {
                     System.out.println("You chose a game for one player");
-                    //show 1 person game
+                    gameMenuService.onePlayerGame();
                     break;
                 }
 
