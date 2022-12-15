@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/j9_trivia
     username: ironhacker
-    password: 1r0nh4ck3r2022!*Blu
+    password: 1r0nh4ck3r
   jpa:
     show-sql: true
     hibernate:
