@@ -82,17 +82,37 @@ public class GameMenuService {
     }
     public  void playGame(CategoryTypes category) {
         System.out.println("You chose the " + category + " category");
+        int pointsGame = 0;
         int categoryChosen = category.getValue();
         var categoryQuestions= questionService.getQuestion(categoryChosen);
         int min = 1;
         int max = categoryQuestions.size()-1;
+        Scanner scanner = new Scanner(System.in);
+
         for (int i = 0; i < 5; i++) {
             int random_int = (int)Math.floor(Math.random()*(max-min+1)+min);
 
             Question randomQuestion=categoryQuestions.get(random_int);
-            System.out.println(randomQuestion);
+            System.out.println("For " + randomQuestion.getValue() +
+                               " points:\n " +
+                                randomQuestion.getQuestion() + "\n" +
+                                "Your answer is: ");
+            var answer = scanner.nextLine();
+
+            if (answer.equals(randomQuestion.getAnswer())) {
+                System.out.println("Congrats, you got the answer right");
+                System.out.println("You got " + randomQuestion.getValue() + " Points");
+                System.out.println("==========================================\n");
+                pointsGame = pointsGame + randomQuestion.getValue();
+            }
+            else {
+                System.out.println("you dumb!!. Wrong answer. Correct answer is: ");
+                System.out.println(randomQuestion.getAnswer());
+                System.out.println("==========================================\n");
+            }
+
         }
-        System.out.println("You have accumulated points");
+        System.out.println("Game is over, you got " + pointsGame + " points");
     }
 }
 
