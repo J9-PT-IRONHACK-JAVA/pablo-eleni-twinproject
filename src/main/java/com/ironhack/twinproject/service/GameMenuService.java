@@ -1,11 +1,14 @@
 package com.ironhack.twinproject.service;
 
 import com.ironhack.twinproject.dto.CategoryTypes;
+import com.ironhack.twinproject.dto.Question;
 import com.ironhack.twinproject.utils.ConsoleColors;
 import com.ironhack.twinproject.utils.Utils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 
@@ -80,9 +83,16 @@ public class GameMenuService {
     public  void playGame(CategoryTypes category) {
         System.out.println("You chose the " + category + " category");
         int categoryChosen = category.getValue();
-        System.out.println(categoryChosen);
         var categoryQuestions= questionService.getQuestion(categoryChosen);
-        System.out.println(categoryQuestions);
+        int min = 1;
+        int max = categoryQuestions.size()-1;
+        for (int i = 0; i < 5; i++) {
+            int random_int = (int)Math.floor(Math.random()*(max-min+1)+min);
+
+            Question randomQuestion=categoryQuestions.get(random_int);
+            System.out.println(randomQuestion);
+        }
+        System.out.println("You have accumulated points");
     }
 }
 
