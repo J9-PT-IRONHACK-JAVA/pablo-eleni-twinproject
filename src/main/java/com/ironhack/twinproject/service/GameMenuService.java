@@ -6,6 +6,8 @@ import com.ironhack.twinproject.dto.Question;
 import com.ironhack.twinproject.utils.ConsoleColors;
 import com.ironhack.twinproject.utils.Utils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,7 +24,11 @@ public class GameMenuService {
 
     private Question question;
 
-    public  void onePlayerGame() {
+    @Autowired
+    @Lazy
+    MainMenuService mainMenuService;
+
+    public  void onePlayerGame() throws Exception {
         int gamePoints = 0;
 
         //5 rounds of questions
@@ -47,17 +53,14 @@ public class GameMenuService {
             }
 
             if  (i == 4) {
-                System.out.println("Game is over, you got " + gamePoints + " points \n\n");
-                finishMessages(gamePoints);
-                System.out.println("Do you want to play a new game?");
-                System.out.println("[Y] Yes");
-                System.out.println("[E] Exit");
+                askToContinue (gamePoints);
                 if (getStringInput().equalsIgnoreCase("y")) {
                     i = 0; //counter reset to re-enter in the for to star the game
                 }
                 else {
                     System.out.println("Well played. See you next time");
-                    System.exit(0);
+                    mainMenuService.playerSelectionRoutine();
+                    //System.exit(0);
                 }
             }
         }
@@ -138,8 +141,20 @@ public class GameMenuService {
         return scanner.nextLine();
     }
 
-    public void finishMessages (int gamePoints) {
-        if (gamePoints < 500)  {
+    public void askToContinue (int gamePoints) {
+        System.out.println("Game is over, you got " + gamePoints + " points \n\n");
+        funnyMessages(gamePoints);
+        System.out.println("Do you want to play a new game?");
+        System.out.println("[Y] Yes");
+        System.out.println("[N] No, return main menu");
+    }
+
+    //print funny messages at the end of the game about player's score
+    public void funnyMessages (int gamePoints) {
+        if (gamePoints == 0) {
+            System.out.println("Really? 0 points?.....Do you know what a book is? ");
+        }
+        else if (gamePoints < 100)  {
             System.out.println("You got some points but you should start to go to the library more often");
         } else if (gamePoints <= 800) {
             System.out.println("....so so, a tour around Wikipedia would not make you any damage");
