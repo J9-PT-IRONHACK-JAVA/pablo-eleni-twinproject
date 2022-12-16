@@ -20,7 +20,7 @@ public class MainMenuService {
 
     public void run() throws Exception {
         Utils.clearScreen();
-        //PRINT LOGO
+        Utils.printLogo();
 
         while (currentPlayerId == null) {
             playerSelectionRoutine();

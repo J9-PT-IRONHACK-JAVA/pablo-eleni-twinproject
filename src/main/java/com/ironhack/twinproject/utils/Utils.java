@@ -46,4 +46,20 @@ public class Utils {
     public static void printWithColor(String text, String color){
         System.out.println(color + text + ConsoleColors.RESET);
     }
+    public static void printLogo(){
+        var logo = ("""
+                    _______   _       _       _ _ _        \s
+                   |__   __| (_)     (_)     | (_) |       \s
+                      | |_ __ ___   ___  __ _| |_| |_ _   _\s
+                      | | '__| \\ \\ / / |/ _` | | | __| | | |
+                      | | |  | |\\ V /| | (_| | | | |_| |_| |
+                      |_|_|  |_| \\_/ |_|\\__,_|_|_|\\__|\\__, |
+                                                       __/ |
+                                                      |___/\s
+                """);
+
+        printWithColor(logo, ConsoleColors.WHITE_BOLD_BRIGHT);
+
+    }
+
 }
