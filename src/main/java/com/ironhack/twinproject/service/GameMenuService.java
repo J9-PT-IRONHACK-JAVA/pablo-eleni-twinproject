@@ -37,16 +37,17 @@ public class GameMenuService {
                 Utils.printWithColor("Congrats, you got the answer right!", ConsoleColors.GREEN_BOLD);
                 Utils.printWithColor("You got " + question.getValue() + " Points", ConsoleColors.GREEN_BOLD);
                 System.out.println("==========================================\n");
+                stopBeforeContinue ();
                 currentPlayerLogged.addPoints(question.getValue(), category);
                 gamePoints = gamePoints + question.getValue();
             }
             else {
                 Utils.printWithColor("You dumb! Answer is not correct", ConsoleColors.RED_BOLD);
                 Utils.printWithColor("The correct answer is " + question.getAnswer(), ConsoleColors.BLUE);
+                stopBeforeContinue ();
             }
         }
         System.out.println("Game is over, you got " + gamePoints + " points");
-        Utils.printWithColor("You dumb! Answer is not correct", ConsoleColors.RED_BOLD);
     }
 
     private String getUserAnswer() {
@@ -117,6 +118,11 @@ public class GameMenuService {
         Scanner scanner = new Scanner(System.in);
         int random_int = (int)Math.floor(Math.random()*(max-min+1)+min);
         return categoryQuestions.get(random_int);
+    }
+
+    public static void stopBeforeContinue() {
+        System.out.println("Press any key to continue");
+        var input = scanner.nextLine();
     }
 }
 
