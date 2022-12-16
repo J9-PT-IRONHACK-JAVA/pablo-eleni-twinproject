@@ -1,6 +1,7 @@
 package com.ironhack.twinproject.service;
 
 import com.ironhack.twinproject.dto.Player;
+import com.ironhack.twinproject.repository.PlayerRepository;
 import com.ironhack.twinproject.utils.ConsoleColors;
 import com.ironhack.twinproject.utils.Utils;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,7 @@ public class MainMenuService {
 
     private final PlayerService playerService;
     private final GameMenuService gameMenuService;
+    private final PlayerRepository playerRepository;
 
 
 
@@ -72,8 +74,20 @@ public class MainMenuService {
                 }
 
                 case "3": {
-                    System.out.println("Show stats");
-                    //show stats table
+                    Utils.printWithColor("SCORE OVERVIEW", ConsoleColors.YELLOW_BOLD);
+                    var totalScore = playerRepository.listPlayersByScore();
+                    var scoreInHistory = playerRepository.listPlayersByScoreInHistory();
+                    var scoreInMusic = playerRepository.listPlayersByScoreInMusic();
+                    var scoreInOlympics = playerRepository.listPlayersByScoreInOlympics();
+                    var scoreInUSCities = playerRepository.listPlayersByScoreInUSCities();
+                    var scoreInCars= playerRepository.listPlayersByScoreInCars();
+
+                    System.out.println("Scores according to the total points: " +totalScore);
+                    System.out.println("Scores in history questions: " +scoreInHistory);
+                    System.out.println("Scores in music questions: " +scoreInMusic);
+                    System.out.println("Scores in Olympics questions: " +scoreInOlympics);
+                    System.out.println("Scores in US cities questions: " +scoreInUSCities);
+                    System.out.println(scoreInCars);
                     break;
                 }
 
