@@ -44,11 +44,11 @@ public class MainMenuService {
                             \n \uD83D\uDCA1 Game on - Get your genius cap on \uD83D\uDC52
                              Choose an option to proceed
                             ====================s================ 
-                            1- Play alone
-                            2- Two players
-                            3- Stats
-                            4- Help
-                            5- Exit
+                            1- Play alone \uD83E\uDD3E
+                            2- Two players \uD83E\uDD3C
+                            3- Stats \uD83D\uDCC1
+                            4- Help \u270B
+                            5- Exit \uD83C\uDFC3
                             ====================================
                             Type your selection, and press enter:
                             """;
