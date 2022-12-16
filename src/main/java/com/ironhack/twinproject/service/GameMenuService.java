@@ -27,6 +27,8 @@ public class GameMenuService {
 
         //5 rounds of questions
         for (int i = 0; i < 5; i++) {
+            boolean playNewGame = false;
+
             var category = chooseCategory();
             question = getRandomQuestion(category);
             System.out.println("For " + question.getValue() +
@@ -43,8 +45,23 @@ public class GameMenuService {
             else {
                 System.out.println("You dumb! Answer is not correct");
             }
+
+            if  (i == 4) {
+                System.out.println("Game is over, you got " + gamePoints + " points \n\n");
+                finishMessages(gamePoints);
+                System.out.println("Do you want to play a new game?");
+                System.out.println("[Y] Yes");
+                System.out.println("[E] Exit");
+                if (getStringInput().equalsIgnoreCase("y")) {
+                    i = 0; //counter reset to re-enter in the for to star the game
+                }
+                else {
+                    System.out.println("Well played. See you next time");
+                    System.exit(0);
+                }
+            }
         }
-        System.out.println("Game is over, you got " + gamePoints + " points");
+
     }
 
     private String getUserAnswer() {
@@ -115,6 +132,22 @@ public class GameMenuService {
         Scanner scanner = new Scanner(System.in);
         int random_int = (int)Math.floor(Math.random()*(max-min+1)+min);
         return categoryQuestions.get(random_int);
+    }
+
+    public static String getStringInput() {
+        return scanner.nextLine();
+    }
+
+    public void finishMessages (int gamePoints) {
+        if (gamePoints < 500)  {
+            System.out.println("You got some points but you should start to go to the library more often");
+        } else if (gamePoints <= 800) {
+            System.out.println("....so so, a tour around Wikipedia would not make you any damage");
+        } else if ( gamePoints <= 1200) {
+            System.out.println("Well done, you know more than a 8 years old kid ");
+        } else if (gamePoints > 1200) {
+            System.out.println("Congrats!! you are a genius. You could be working at Harvard University");
+        }
     }
 }
 
