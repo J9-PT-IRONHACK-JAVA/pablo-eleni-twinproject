@@ -28,4 +28,8 @@ public class Player {
     public Player(String name) {
         this.name = name;
     }
+
+    public void addPoints(int value, CategoryTypes category) {
+            points.addPoints (value, category);
+    }
 }

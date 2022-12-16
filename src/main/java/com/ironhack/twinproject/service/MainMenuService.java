@@ -17,6 +17,7 @@ public class MainMenuService {
     private final GameMenuService gameMenuService;
 
 
+
     public void run() throws Exception {
         Utils.clearScreen();
         //PRINT LOGO
@@ -59,7 +60,7 @@ public class MainMenuService {
             switch (options[0]) {
                 case "1": {
                     System.out.println("You chose a game for one player");
-                    gameMenuService.onePlayerGame();
+                    gameMenuService.onePlayerGame ();
                     break;
                 }
 
@@ -109,6 +110,8 @@ public class MainMenuService {
             Utils.printWithColor("Pick your player, CREATE a new player, or EXIT",
                     ConsoleColors.WHITE_BOLD_BRIGHT);
             input = scanner.nextLine();
+
+            //USER SELECT AN SPECIFIC PLAYER
             if (input.matches("\\d+")) {
                 var selectedId = Long.parseLong(input);
                 var playerFound = playerService.findById(selectedId);
@@ -120,13 +123,20 @@ public class MainMenuService {
                     Utils.printWithColor("Not a valid user selection", ConsoleColors.RED);
                     System.out.println();
                 }
+
+            //PLAYER CREATION
             }else if (input.equalsIgnoreCase("create")) {
                 Utils.printWithColor("you want to create a player", ConsoleColors.WHITE_BOLD_BRIGHT);
                 createPlayerRoutine();
             }
+
+            //COMMAND NOT RECOGNIZED
             else if (!input.equalsIgnoreCase("exit")) {
                 Utils.printWithColor("Unrecognized command!", ConsoleColors.RED);
-            } else {
+            }
+
+            //APPLICATION EXIT
+            else {
                 Utils.printWithColor("Goodbye!", ConsoleColors.WHITE_BOLD_BRIGHT);
                 System.exit(0);
             }
@@ -141,7 +151,8 @@ public class MainMenuService {
                 Utils.printWithColor("Invalid input!", ConsoleColors.RED);
             } else if(!input.equalsIgnoreCase("BACK")) {
 
-                var player = playerService.save(new Player(input.trim().toLowerCase()));
+                var player = new Player(input.trim().toLowerCase());
+                playerService.save(player);
                 System.out.printf(ConsoleColors.GREEN_BOLD+
                                 "Congrats! new player created with name: %s and id: %s\n\n"+
                                 ConsoleColors.RESET,
