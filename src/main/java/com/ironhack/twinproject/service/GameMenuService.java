@@ -1,6 +1,7 @@
 package com.ironhack.twinproject.service;
 
 import com.ironhack.twinproject.dto.CategoryTypes;
+import com.ironhack.twinproject.dto.Player;
 import com.ironhack.twinproject.dto.Question;
 import com.ironhack.twinproject.utils.ConsoleColors;
 import com.ironhack.twinproject.utils.Utils;
@@ -19,100 +20,101 @@ public class GameMenuService {
 
     private final QuestionService questionService;
 
-    public  void onePlayerGame() throws Exception {
+    private Question question;
 
+    public  void onePlayerGame() {
+        int gamePoints = 0;
+
+        //5 rounds of questions
+        for (int i = 0; i < 5; i++) {
+            var category = chooseCategory();
+            question = getRandomQuestion(category);
+            System.out.println("For " + question.getValue() +
+                               " points:\n " +
+                                question.getQuestion() + "\n");
+            if (getUserAnswer().equals(question.getAnswer())) {
+                System.out.println("Congrats, you got the answer right");
+                System.out.println("You got " + question.getValue() + " Points");
+                System.out.println("==========================================\n");
+                //TODO añadir player como parametro de addPoints
+                //addPoints(player, category, question.getValue());
+                gamePoints = gamePoints + question.getValue();
+            }
+            else {
+                System.out.println("You dumb! Answer is not correct");
+            }
+        }
+        System.out.println("Game is over, you got " + gamePoints + " points");
+    }
+
+    private String getUserAnswer() {
+        System.out.println("Your answer is:");
+        return scanner.nextLine();
+    }
+
+    private void addPoints(Player player, CategoryTypes category, int value) {
+        player.addPoints (value, category);
+    }
+
+    public CategoryTypes chooseCategory () {
         String input;
         String[] options;
         String inputLowerCase;
-        do {
-            Utils.clearScreen();
-            var categoriesMenu = """                                
-                            %s: Pick a category
-                            ==================================== 
-                            1- History
-                            2- Music
-                            3- Olympic Games
-                            4- Cars
-                            5- US cities
-                            ====================================
-                            Type your selection, and press enter:
-                            """;
-            Utils.printWithColor(categoriesMenu, ConsoleColors.WHITE_BOLD_BRIGHT);
+        var categoriesMenu = """                                
+                        %s: Pick a category
+                        ==================================== 
+                        1- History
+                        2- Music
+                        3- Olympic Games
+                        4- Cars
+                        5- US cities
+                        ====================================
+                        Type your selection, and press enter:
+                        """;
+        Utils.printWithColor(categoriesMenu, ConsoleColors.WHITE_BOLD_BRIGHT);
+        input = scanner.nextLine().trim();
+        inputLowerCase = input.toLowerCase();
 
-            input = scanner.nextLine().trim();
-            inputLowerCase = input.toLowerCase();
-
-            options = inputLowerCase.split(" ");
-
-            switch (options[0]) {
-                case "1": {
-                    playGame(CategoryTypes.HISTORY);
-                    break;
-                }
-
-                case "2": {
-                    playGame(CategoryTypes.MUSIC);
-                    break;
-                }
-
-                case "3": {
-                    playGame(CategoryTypes.OLYMPICS);
-                    break;
-                }
-
-                case "4": {
-                    playGame(CategoryTypes.CARS);
-                    break;
-                }
-
-                case "5": {
-                    playGame(CategoryTypes.CITIES);
-                    break;
-                }
-
-                default: {
-                    String message = "Error in command! Please write 'help' to see all commands...";
-                    Utils.printWithColor(message, ConsoleColors.RED_BOLD);
-                    Utils.promptEnterKey();
-                    Utils.clearScreen();
-                }
+        options = inputLowerCase.split(" ");
+        switch (options[0]) {
+            case "1": {
+                return CategoryTypes.HISTORY;
             }
-        }while(!options[0].equals("exit"));
 
+            case "2": {
+                return CategoryTypes.MUSIC;
+            }
+
+            case "3": {
+                return CategoryTypes.OLYMPICS;
+            }
+
+            case "4": {
+                return CategoryTypes.CARS;
+            }
+
+            case "5": {
+                return CategoryTypes.CITIES;
+            }
+
+            default: {
+                String message = "Error in command! Please write 'help' to see all commands...";
+                Utils.printWithColor(message, ConsoleColors.RED_BOLD);
+                Utils.promptEnterKey();
+                Utils.clearScreen();
+                return null;
+            }
+        }
     }
-    public  void playGame(CategoryTypes category) {
+
+    public Question getRandomQuestion(CategoryTypes category) {
         System.out.println("You chose the " + category + " category");
-        int pointsGame = 0;
-        int categoryChosen = category.getValue();
-        var categoryQuestions= questionService.getQuestion(categoryChosen);
+        var categoryQuestions= questionService.getQuestion(category.getValue());
         int min = 1;
         int max = categoryQuestions.size()-1;
         Scanner scanner = new Scanner(System.in);
-
-        for (int i = 0; i < 5; i++) {
-            int random_int = (int)Math.floor(Math.random()*(max-min+1)+min);
-
-            Question randomQuestion=categoryQuestions.get(random_int);
-            System.out.println("For " + randomQuestion.getValue() +
-                               " points:\n " +
-                                randomQuestion.getQuestion() + "\n" +
-                                "Your answer is: ");
-            var answer = scanner.nextLine();
-
-            if (answer.equals(randomQuestion.getAnswer())) {
-                System.out.println("Congrats, you got the answer right");
-                System.out.println("You got " + randomQuestion.getValue() + " Points");
-                System.out.println("==========================================\n");
-                pointsGame = pointsGame + randomQuestion.getValue();
-            }
-            else {
-                System.out.println("you dumb!!. Wrong answer. Correct answer is: ");
-                System.out.println(randomQuestion.getAnswer());
-                System.out.println("==========================================\n");
-            }
-
-        }
-        System.out.println("Game is over, you got " + pointsGame + " points");
+        int random_int = (int)Math.floor(Math.random()*(max-min+1)+min);
+        return categoryQuestions.get(random_int);
     }
 }
 

@@ -8,4 +8,5 @@ public class Question {
     private String answer;
     private String question;
     private int value;
+    private int category_id;
 }

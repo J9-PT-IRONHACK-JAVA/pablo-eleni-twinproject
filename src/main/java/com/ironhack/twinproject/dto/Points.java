@@ -41,4 +41,30 @@ public class Points {
     public void setTotalPoints( ){
         this.totalPoints = theOlympicsPoints + usCitiesPoints + historyPoints + musicPoints + carsPoints;
     }
+
+    public void addPoints(int value, CategoryTypes category) {
+        this.totalPoints = this.totalPoints + value;
+
+        switch (category) {
+            case CARS:
+                this.carsPoints = this.carsPoints + value;
+                break;
+
+            case MUSIC:
+                this.musicPoints = this.musicPoints + value;
+                break;
+
+            case CITIES:
+                this.usCitiesPoints = this.usCitiesPoints + value;
+                break;
+
+            case OLYMPICS:
+                this.theOlympicsPoints = this.theOlympicsPoints + value;
+                break;
+
+            case HISTORY:
+                this.historyPoints = this.historyPoints + value;
+                break;
+        }
+    }
 }
