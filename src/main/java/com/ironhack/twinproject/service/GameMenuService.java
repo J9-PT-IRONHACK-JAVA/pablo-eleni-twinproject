@@ -26,12 +26,12 @@ public class GameMenuService {
 
     private Question question;
 
-
-    public  void onePlayerGame(Player currentPlayerLogged) {
-
     @Autowired
     @Lazy
     MainMenuService mainMenuService;
+    public  void onePlayerGame(Player currentPlayerLogged) {
+
+
 
         int gamePoints = 0;
 

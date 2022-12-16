@@ -13,11 +13,11 @@ public class DataLoader {
 
     @Bean
     void loadData() {
-        var listOfPlayers = List.of(
-                new Player("Brian"),
-                new Player("Hasan"),
-                new Player("Olalla")
-        );
-        var savedPlayersList = playerService.saveAll(listOfPlayers);
+       // var listOfPlayers = List.of(
+       ////         new Player("Brian"),
+       ////         new Player("Hasan"),
+       ////         new Player("Olalla")
+       //// );
+        //var savedPlayersList = playerService.saveAll(listOfPlayers);
     }
 }
