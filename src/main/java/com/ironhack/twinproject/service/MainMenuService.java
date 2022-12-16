@@ -40,7 +40,7 @@ public class MainMenuService {
             Utils.clearScreen();
             var gameMenu = """                                
                             \n** Game on - Get your genius cap on **
-                            %s: Choose an option to proceed
+                            Choose an option to proceed
                             ==================================== 
                             1- Play alone
                             2- Two players

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
 @Service
 @RequiredArgsConstructor
 public class Utils {
@@ -61,5 +62,6 @@ public class Utils {
         printWithColor(logo, ConsoleColors.WHITE_BOLD_BRIGHT);
 
     }
+
 
 }

@@ -9,10 +9,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import org.fusesource.jansi.Ansi;
+import org.fusesource.jansi.AnsiConsole;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.Callable;
 
 
 @RequiredArgsConstructor
@@ -31,19 +34,16 @@ public class GameMenuService {
     MainMenuService mainMenuService;
     public  void onePlayerGame(Player currentPlayerLogged) {
 
-
-
         int gamePoints = 0;
 
         //5 rounds of questions
         for (int i = 0; i < 5; i++) {
             boolean playNewGame = false;
-
+            Utils.printWithColor("\n# ROUND " + (i+1) + "/5", ConsoleColors.BLUE_BOLD);
             var category = chooseCategory();
             question = getRandomQuestion(category);
-            System.out.println("For " + question.getValue() +
-                               " points:\n " +
-                                question.getQuestion() + "\n");
+            System.out.println("\nFor " + question.getValue() + " points: ");
+            Utils.printWithColor("QUESTION: " + question.getQuestion(), ConsoleColors.CYAN_BOLD);
             if (getUserAnswer().equals(question.getAnswer())) {
                 Utils.printWithColor("Congrats, you got the answer right!", ConsoleColors.GREEN_BOLD);
                 Utils.printWithColor("You got " + question.getValue() + " Points", ConsoleColors.GREEN_BOLD);
@@ -89,7 +89,7 @@ public class GameMenuService {
         String[] options;
         String inputLowerCase;
         var categoriesMenu = """                                
-                        %s: Pick a category
+                        Pick a category
                         ==================================== 
                         1- History
                         2- Music
@@ -166,18 +166,18 @@ public class GameMenuService {
     //print funny messages at the end of the game about player's score
     public void funnyMessages (int gamePoints) {
         if (gamePoints == 0) {
-            System.out.println("Really? 0 points?.....Do you know what a book is? ");
+            Utils.printWithColor("Really? 0 points?.....Do you know what a book is?\n\n" , ConsoleColors.RED_BOLD);
         }
         else if (gamePoints < 100)  {
-            System.out.println("You got some points but you should start to go to the library more often");
+            Utils.printWithColor("You got some points but you should start to go to the library more often\n\n" , ConsoleColors.RED_BOLD);
         } else if (gamePoints <= 800) {
-            System.out.println("....so so, a tour around Wikipedia would not make you any damage");
+            Utils.printWithColor("....so so, a tour around Wikipedia would not make you any damage\n\n" , ConsoleColors.RED_BOLD);
         } else if ( gamePoints <= 1200) {
-            System.out.println("Well done, you know more than a 8 years old kid ");
+            Utils.printWithColor("Well done, you know more than a 8 years old kid\n\n" , ConsoleColors.GREEN_BOLD);
         } else if (gamePoints > 1200) {
-            System.out.println("Congrats!! you are a genius. You could be working at Harvard University");
+            Utils.printWithColor("Congrats!! you are a genius. You could be working at Harvard University\n\n" , ConsoleColors.GREEN_BOLD);
         }
-
     }
+
 }
 
