@@ -60,7 +60,7 @@ public class MainMenuService {
             switch (options[0]) {
                 case "1": {
                     System.out.println("You chose a game for one player");
-                    gameMenuService.onePlayerGame ();
+                    gameMenuService.onePlayerGame(currentPlayerLogged);
                     break;
                 }
 
@@ -154,7 +154,7 @@ public class MainMenuService {
                 var player = new Player(input.trim().toLowerCase());
                 playerService.save(player);
                 System.out.printf(ConsoleColors.GREEN_BOLD+
-                                "Congrats! new player created with name: %s and id: %s\n\n"+
+                                "Congrats! new player created with name: %s\n\n"+
                                 ConsoleColors.RESET,
                         player.getName(), player.getId());
                 break;

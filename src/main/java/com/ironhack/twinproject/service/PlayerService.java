@@ -1,17 +1,14 @@
 package com.ironhack.twinproject.service;
 
+import com.ironhack.twinproject.dto.CategoryTypes;
 import com.ironhack.twinproject.dto.Player;
+import com.ironhack.twinproject.dto.Points;
 import com.ironhack.twinproject.repository.PlayerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-
-        import org.springframework.stereotype.Service;
-
-        import java.util.List;
-        import java.util.Optional;
 
 @Service
 public class PlayerService {
@@ -21,7 +18,7 @@ public class PlayerService {
     public PlayerService(PlayerRepository playerRepository) {
         this.playerRepository = playerRepository;
     }
-
+    private Points points;
 
     public List<Player> findAll() {
         return playerRepository.findAll();
@@ -39,7 +36,8 @@ public class PlayerService {
         return playerRepository.save(user);
     }
 
-    public List<Player> saveAll(List<Player> listOfSalesReps) {
-        return playerRepository.saveAll(listOfSalesReps);
+    public List<Player> saveAll(List<Player> listOfPlayers) {
+        return playerRepository.saveAll(listOfPlayers);
     }
+
 }
