@@ -21,14 +21,17 @@ public class GameMenuService {
     private static final Scanner scanner = new Scanner(System.in);
 
     private final QuestionService questionService;
+    private final PlayerService playerService;
 
     private Question question;
+
+
+    public  void onePlayerGame(Player currentPlayerLogged) {
 
     @Autowired
     @Lazy
     MainMenuService mainMenuService;
 
-    public  void onePlayerGame() throws Exception {
         int gamePoints = 0;
 
         //5 rounds of questions
@@ -41,15 +44,17 @@ public class GameMenuService {
                                " points:\n " +
                                 question.getQuestion() + "\n");
             if (getUserAnswer().equals(question.getAnswer())) {
-                System.out.println("Congrats, you got the answer right");
-                System.out.println("You got " + question.getValue() + " Points");
+                Utils.printWithColor("Congrats, you got the answer right!", ConsoleColors.GREEN_BOLD);
+                Utils.printWithColor("You got " + question.getValue() + " Points", ConsoleColors.GREEN_BOLD);
                 System.out.println("==========================================\n");
-                //TODO añadir player como parametro de addPoints
-                //addPoints(player, category, question.getValue());
+                stopBeforeContinue ();
+                currentPlayerLogged.addPoints(question.getValue(), category);
                 gamePoints = gamePoints + question.getValue();
             }
             else {
-                System.out.println("You dumb! Answer is not correct");
+                Utils.printWithColor("You dumb! Answer is not correct", ConsoleColors.RED_BOLD);
+                Utils.printWithColor("The correct answer is " + question.getAnswer(), ConsoleColors.BLUE);
+                stopBeforeContinue ();
             }
 
             if  (i == 4) {
@@ -71,10 +76,10 @@ public class GameMenuService {
         System.out.println("Your answer is:");
         return scanner.nextLine();
     }
-
+/*
     private void addPoints(Player player, CategoryTypes category, int value) {
-        player.addPoints (value, category);
-    }
+        player.addPoints(value, category);
+    }*/
 
     public CategoryTypes chooseCategory () {
         String input;
@@ -137,6 +142,12 @@ public class GameMenuService {
         return categoryQuestions.get(random_int);
     }
 
+
+    public static void stopBeforeContinue() {
+        System.out.println("Press any key to continue");
+        var input = scanner.nextLine();
+        }
+
     public static String getStringInput() {
         return scanner.nextLine();
     }
@@ -163,6 +174,7 @@ public class GameMenuService {
         } else if (gamePoints > 1200) {
             System.out.println("Congrats!! you are a genius. You could be working at Harvard University");
         }
+
     }
 }
 

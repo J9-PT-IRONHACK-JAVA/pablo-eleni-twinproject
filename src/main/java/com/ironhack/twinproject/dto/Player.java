@@ -19,7 +19,7 @@ public class Player {
     private String name;
 
 
-    @OneToOne
+    @OneToOne (cascade = CascadeType.ALL)
     @JoinColumn (name = "points_id")
     private Points points;
 
@@ -27,9 +27,9 @@ public class Player {
 
     public Player(String name) {
         this.name = name;
+        this.points = new Points();
     }
-
     public void addPoints(int value, CategoryTypes category) {
-            points.addPoints (value, category);
+            points.addPoints(value, category);
     }
 }
