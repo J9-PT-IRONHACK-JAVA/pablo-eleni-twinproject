@@ -25,8 +25,6 @@ public class Player {
     @JoinColumn (name = "points_id")
     private Points points;
 
-    private int totalPoints;
-
     public Player(String name) {
         this.name = name;
         this.points = new Points();

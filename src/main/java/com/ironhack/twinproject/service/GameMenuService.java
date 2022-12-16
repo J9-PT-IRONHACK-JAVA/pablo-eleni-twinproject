@@ -41,6 +41,7 @@ public class GameMenuService {
                 stopBeforeContinue ();
                 currentPlayerLogged.addPoints(question.getValue(), category);
                 pointsService.createOrUpdate(currentPlayerLogged.getPoints());
+
                 gamePoints = gamePoints + question.getValue();
             }
             else {
