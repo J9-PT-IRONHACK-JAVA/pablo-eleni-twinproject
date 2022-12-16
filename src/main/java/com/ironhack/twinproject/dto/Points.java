@@ -1,9 +1,12 @@
 package com.ironhack.twinproject.dto;
 
+import com.ironhack.twinproject.repository.PointsRepository;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Entity
 @Data
@@ -60,6 +63,7 @@ public class Points {
 
             case OLYMPICS:
                 this.theOlympicsPoints = this.theOlympicsPoints + value;
+
                 break;
 
             case HISTORY:

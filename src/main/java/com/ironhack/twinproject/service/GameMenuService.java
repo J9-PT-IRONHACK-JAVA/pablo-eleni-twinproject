@@ -22,6 +22,7 @@ public class GameMenuService {
 
     private final QuestionService questionService;
     private final PlayerService playerService;
+    private final PointsService pointsService;
 
     private Question question;
 
@@ -49,6 +50,8 @@ public class GameMenuService {
                 System.out.println("==========================================\n");
                 stopBeforeContinue ();
                 currentPlayerLogged.addPoints(question.getValue(), category);
+                pointsService.createOrUpdate(currentPlayerLogged.getPoints());
+
                 gamePoints = gamePoints + question.getValue();
             }
             else {

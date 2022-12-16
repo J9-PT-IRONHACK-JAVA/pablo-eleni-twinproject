@@ -4,6 +4,7 @@ import com.ironhack.twinproject.dto.CategoryTypes;
 import com.ironhack.twinproject.dto.Player;
 import com.ironhack.twinproject.dto.Points;
 import com.ironhack.twinproject.repository.PlayerRepository;
+import com.ironhack.twinproject.repository.PointsRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.Optional;
 
 
 @Service
+
 public class PlayerService {
 
     private final PlayerRepository playerRepository;
