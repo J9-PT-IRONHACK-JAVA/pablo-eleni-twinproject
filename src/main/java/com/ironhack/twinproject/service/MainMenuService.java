@@ -3,6 +3,7 @@ package com.ironhack.twinproject.service;
 import com.ironhack.twinproject.dto.Player;
 import com.ironhack.twinproject.utils.ConsoleColors;
 import com.ironhack.twinproject.utils.Utils;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.Scanner;
