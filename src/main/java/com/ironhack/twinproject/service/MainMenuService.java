@@ -6,6 +6,8 @@ import com.ironhack.twinproject.utils.ConsoleColors;
 import com.ironhack.twinproject.utils.Utils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
 import java.util.Scanner;
 @RequiredArgsConstructor
 @Service
@@ -114,8 +116,7 @@ public class MainMenuService {
                 }
 
                 case "4": {
-                    System.out.println("Help");
-                    //show help instructions
+                    printHelp();
                     break;
                 }
 
@@ -222,5 +223,37 @@ public class MainMenuService {
         Utils.printWithColor("Pick your player, CREATE a new player, or EXIT",
                 ConsoleColors.WHITE_BOLD_BRIGHT);
         return scanner.nextLine();
+    }
+
+    private void printHelp() throws IOException {
+        Utils.clearScreen();
+        Utils.printWithColor("""
+                      ___       __ \s
+                |__| |__  |    |__)\s
+                |  | |___ |___ |   \s
+                                  \s
+                """, ConsoleColors.PURPLE_BOLD);
+
+        System.out.println("Triviality\n");
+        Utils.promptEnterKey();
+        System.out.println("**************************************");
+        System.out.println("\nAVAILABLE COMMANDS:");
+
+        System.out.println("\n- 'Help'");
+        System.out.println("    - 'help' : Show info and help.");
+        System.out.println("\n- 'Play alone'");
+        System.out.println("    - the player creates his persona or chooses one already created");
+        System.out.println("    - launches a game of five rounds where each time the player gets to choose a category");
+        System.out.println("\n- 'Two players'");
+        System.out.println("    - both players create their personas or choose one already created");
+        System.out.println("    - launches a game of three rounds where each time the each player gets to choose a category");
+        System.out.println("\n- 'Stats'");
+        System.out.println("    - shows an overview of the players' scores in total and per category");
+        System.out.println("\n- 'Exit'");
+        System.out.println("    - the player can exit the application");
+        Utils.promptEnterKey();
+        System.out.println(ConsoleColors.BLUE + "\nFor support contact: admin@triviality.com");
+        System.out.println(ConsoleColors.WHITE_BOLD_BRIGHT + "**************************************" + ConsoleColors.RESET);
+        Utils.clearScreen();
     }
 }
