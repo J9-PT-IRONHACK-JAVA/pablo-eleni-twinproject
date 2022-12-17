@@ -1,12 +1,11 @@
 package com.ironhack.twinproject.dto;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.ironhack.twinproject.repository.PointsRepository;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
@@ -18,7 +17,19 @@ public class Player {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long password;
+    private String password;
     private String name;
-    private int totalPoints;
+
+
+    @OneToOne (cascade = CascadeType.ALL)
+    @JoinColumn (name = "points_id")
+    private Points points;
+
+    public Player(String name) {
+        this.name = name;
+        this.points = new Points();
+    }
+    public void addPoints(int value, CategoryTypes category) {
+            points.addPoints(value, category);
+    }
 }
