@@ -3,6 +3,7 @@ package com.ironhack.twinproject.utils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -60,6 +61,26 @@ public class Utils {
 
         printWithColor(logo, ConsoleColors.WHITE_BOLD_BRIGHT);
 
+    }
+    public static void printStatsResult(String results) {
+        printWithColor(results + "\n", ConsoleColors.CYAN_BOLD);
+        promptEnterKey();
+    }
+
+    public static void printReportResult(List<Object[]> results) {
+        printWithColor(String.format("""
+                        ===============================================
+                        |%-30s |%10s     | 
+                        ===============================================""", "Name", "Score"), ConsoleColors.CYAN_BOLD);
+
+        for (Object[] result : results) {
+            String name = result[0].toString();
+            int score = Integer.parseInt(result[1].toString());
+            printWithColor(String.format("|%-30s |%10s     |", name, score), ConsoleColors.CYAN_BOLD);
+        }
+        printWithColor("===============================================", ConsoleColors.CYAN_BOLD);
+        System.out.println("\n");
+        promptEnterKey();
     }
 
 }

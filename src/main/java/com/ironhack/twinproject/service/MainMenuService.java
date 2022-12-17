@@ -82,12 +82,24 @@ public class MainMenuService {
                     var scoreInUSCities = playerRepository.listPlayersByScoreInUSCities();
                     var scoreInCars= playerRepository.listPlayersByScoreInCars();
 
-                    System.out.println("Scores according to the total points: " +totalScore);
-                    System.out.println("Scores in history questions: " +scoreInHistory);
-                    System.out.println("Scores in music questions: " +scoreInMusic);
-                    System.out.println("Scores in Olympics questions: " +scoreInOlympics);
-                    System.out.println("Scores in US cities questions: " +scoreInUSCities);
-                    System.out.println(scoreInCars);
+                    System.out.println("Scores according to the total points:");
+                    Utils.printReportResult(totalScore);
+
+                    System.out.println("Scores in history questions:");
+                    Utils.printReportResult(scoreInHistory);
+
+                    System.out.println("Scores in music questions:");
+                    Utils.printReportResult(scoreInMusic);
+
+                    System.out.println("Scores in Olympics questions:" );
+                    Utils.printReportResult(scoreInOlympics);
+
+                    System.out.println("Scores in US cities questions:");
+                    Utils.printReportResult(scoreInUSCities);
+
+                    System.out.println("Scores in cars questions:");
+                    Utils.printReportResult(scoreInCars);
+
                     break;
                 }
 
