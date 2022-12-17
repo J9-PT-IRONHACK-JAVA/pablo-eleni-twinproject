@@ -34,11 +34,14 @@ public class GameMenuService {
     MainMenuService mainMenuService;
     public  void onePlayerGame(Player player) throws Exception {
 
+
         int gamePoints = 0;
 
         //5 rounds of questions
         for (int i = 0; i < 5; i++) {
-            Utils.printWithColor("\n# ROUND " + (i+1) + "/5", ConsoleColors.BLUE_BOLD);
+            boolean playNewGame = false;
+            Utils.printWithColor("\n# ROUND " + (i + 1) + "/5", ConsoleColors.BLUE_BOLD);
+
             var category = chooseCategory();
             question = getRandomQuestion(category);
             int questionValue=question.getValue();
@@ -49,24 +52,24 @@ public class GameMenuService {
                 Utils.printWithColor("Congrats, you got the answer right!", ConsoleColors.GREEN_BOLD);
                 Utils.printWithColor("You got " + questionValue + " Points", ConsoleColors.GREEN_BOLD);
                 System.out.println("==========================================\n");
+
                 stopBeforeContinue ();
                 player.addPoints(questionValue, category);
                 pointsService.createOrUpdate(player.getPoints());
 
+
                 gamePoints = gamePoints + question.getValue();
-            }
-            else {
+            } else {
                 Utils.printWithColor("You dumb! Answer is not correct", ConsoleColors.RED_BOLD);
                 Utils.printWithColor("The correct answer is " + question.getAnswer(), ConsoleColors.BLUE);
-                stopBeforeContinue ();
+                stopBeforeContinue();
             }
 
-            if  (i == 4) {
-                askToContinue (gamePoints);
+            if (i == 4) {
+                askToContinue(gamePoints);
                 if (getStringInput().equalsIgnoreCase("y")) {
                     i = 0; //counter reset to re-enter in the for to star the game
-                }
-                else {
+                } else {
                     System.out.println("Well played. See you next time");
                     mainMenuService.loggedUserRoutine();
                     //System.exit(0);
@@ -89,11 +92,11 @@ public class GameMenuService {
         var categoriesMenu = """                                
                         Pick a category
                         ==================================== 
-                        1- History
-                        2- Music
-                        3- Olympic Games
-                        4- Cars
-                        5- US cities
+                        1- History \uD83D\uDCDA
+                        2- Music \uD83C\uDFB5
+                        3- Olympic Games \uD83C\uDFCA
+                        4- Cars \uD83D\uDE97
+                        5- US cities \uD83C\uDF07
                         ====================================
                         Type your selection, and press enter:
                         """;
