@@ -32,8 +32,8 @@ public class GameMenuService {
     @Autowired
     @Lazy
     MainMenuService mainMenuService;
+    public  void onePlayerGame(Player player) throws Exception {
 
-    public void onePlayerGame(Player currentPlayerLogged) {
 
         int gamePoints = 0;
 
@@ -41,17 +41,22 @@ public class GameMenuService {
         for (int i = 0; i < 5; i++) {
             boolean playNewGame = false;
             Utils.printWithColor("\n# ROUND " + (i + 1) + "/5", ConsoleColors.BLUE_BOLD);
+
             var category = chooseCategory();
             question = getRandomQuestion(category);
-            System.out.println("\nFor " + question.getValue() + " points: ");
+            int questionValue=question.getValue();
+            if (questionValue ==0) { questionValue = 200;}//to avoid 0 points questions
+            System.out.println("\nFor " + questionValue + " points: ");
             Utils.printWithColor("QUESTION: " + question.getQuestion(), ConsoleColors.CYAN_BOLD);
             if (getUserAnswer().equals(question.getAnswer())) {
                 Utils.printWithColor("Congrats, you got the answer right!", ConsoleColors.GREEN_BOLD);
-                Utils.printWithColor("You got " + question.getValue() + " Points", ConsoleColors.GREEN_BOLD);
+                Utils.printWithColor("You got " + questionValue + " Points", ConsoleColors.GREEN_BOLD);
                 System.out.println("==========================================\n");
-                stopBeforeContinue();
-                currentPlayerLogged.addPoints(question.getValue(), category);
-                pointsService.createOrUpdate(currentPlayerLogged.getPoints());
+
+                stopBeforeContinue ();
+                player.addPoints(questionValue, category);
+                pointsService.createOrUpdate(player.getPoints());
+
 
                 gamePoints = gamePoints + question.getValue();
             } else {
@@ -66,7 +71,7 @@ public class GameMenuService {
                     i = 0; //counter reset to re-enter in the for to star the game
                 } else {
                     System.out.println("Well played. See you next time");
-                    mainMenuService.playerSelectionRoutine();
+                    mainMenuService.loggedUserRoutine();
                     //System.exit(0);
                 }
             }
@@ -152,9 +157,13 @@ public class GameMenuService {
     }
 
     public void askToContinue (int gamePoints) {
-        System.out.println("Game is over, you got " + gamePoints + " points \n\n");
-        funnyMessages(gamePoints);
-        System.out.println("Do you want to play a new game?");
+        //Option only for OnePlayerMode
+        if (gamePoints>=0) {
+            System.out.println("Game is over, you got " + gamePoints + " points");
+            funnyMessages(gamePoints);
+        }
+        System.out.println("*******************************************");
+        System.out.println("\n\nDo you want to play a new game?");
         System.out.println("[Y] Yes");
         System.out.println("[N] No, return main menu");
     }
@@ -173,6 +182,84 @@ public class GameMenuService {
         } else if (gamePoints > 1200) {
             Utils.printWithColor("Congrats!! you are a genius. You could be working at Harvard University\n\n" , ConsoleColors.GREEN_BOLD);
         }
+    }
+
+    public void twoPlayerGame(Player player1, Player player2) throws Exception {
+        int player1GamePoints = 0;
+        int player2GamePoints = 0;
+        //5 rounds of questions
+        for (int i = 0; i < 3; i++) {
+            Utils.printWithColor("\n# ROUND " + (i + 1) + "/3", ConsoleColors.BLUE_BOLD);
+            //Question for player 1
+            Utils.printWithColor("\n## " + player1.getName().toUpperCase(), ConsoleColors.YELLOW_BOLD);
+            var category1 = chooseCategory();
+            player2GamePoints = player2GamePoints + questionForPlayer(player1, category1);
+
+            //Question for player 2
+            Utils.printWithColor("\n## " + player2.getName().toUpperCase(), ConsoleColors.PURPLE_BOLD);
+            var category2 = chooseCategory();
+            player2GamePoints = player2GamePoints + questionForPlayer(player2, category2);
+
+            if  (i == 2) {
+                Utils.printWithColor("END OF THE GAME", ConsoleColors.GREEN_BACKGROUND);
+                System.out.println(player1.getName() + ": " + player1GamePoints + " points");
+                System.out.println(player2.getName() + ": " + player2GamePoints + " points");
+
+                printWinner (player1,player2,player1GamePoints,player2GamePoints);
+                askToContinue(-1);
+                if (getStringInput().equalsIgnoreCase("y")) {
+                    i = 0; //counter reset to re-enter in the for to star the game
+                } else {
+                    System.out.println("Well played. See you next time");
+                    mainMenuService.loggedUserRoutine();
+                }
+            }
+
+        }
+    }
+
+    private void printWinner(Player player1, Player player2, int player1GamePoints, int player2GamePoints) {
+        if (player1GamePoints > player2GamePoints){
+            Utils.printWithColor(player1.getName().toUpperCase() + ", you kicked " + player2.getName().toUpperCase() + "'s ass, CONGRATS!" , ConsoleColors.GREEN_BOLD);
+        } else if (player1GamePoints < player2GamePoints) {
+            Utils.printWithColor(player2.getName().toUpperCase() + ", you kicked " + player1.getName().toUpperCase() + "'s ass, CONGRATS!" , ConsoleColors.GREEN_BOLD);
+        } else if (player1GamePoints == player2GamePoints) {
+            Utils.printWithColor("It's a tie. You should play again to decide who pay the beers", ConsoleColors.GREEN_BOLD);
+        }
+    }
+
+    public boolean answerIsRight (Player player, CategoryTypes category){
+            if (getUserAnswer().equals(question.getAnswer())) {
+                Utils.printWithColor("Congrats, you got the answer right!", ConsoleColors.GREEN_BOLD);
+                Utils.printWithColor("You got " + question.getValue() + " Points", ConsoleColors.GREEN_BOLD);
+                System.out.println("==========================================\n");
+                player.addPoints(question.getValue(), category);
+                pointsService.createOrUpdate(player.getPoints());
+                stopBeforeContinue();
+                return true;
+            } else {
+                Utils.printWithColor("You dumb! Answer is not correct", ConsoleColors.RED_BOLD);
+                Utils.printWithColor("The correct answer is " + question.getAnswer(), ConsoleColors.BLUE);
+                stopBeforeContinue();
+                return false;
+            }
+        }
+
+    public int questionForPlayer (Player player, CategoryTypes category) {
+        question = getRandomQuestion(category);
+        int questionValue= question.getValue();
+        if (questionValue == 0) {questionValue = 200;};
+        System.out.println("\nFor " + questionValue + " points: ");
+        Utils.printWithColor("QUESTION: " + question.getQuestion(), ConsoleColors.CYAN_BOLD);
+        if (answerIsRight(player,category)) {
+            pointsService.createOrUpdate(player.getPoints());
+
+            return questionValue;
+        }
+        else {
+            return 0;
+        }
+
     }
 
 }
