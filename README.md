@@ -39,8 +39,8 @@ Run the file TwinProjectApplication with your editor, and enjoy!
 To see all the available commands type 'help' in the 'Insert command:' line.
 
 Available game modes:
-'Play alone':  the player creates his persona or chooses one already created and a game of five rounds is launched where each time the player gets to choose a category
-'Two players': both players create their personas or choose one already created
+* **Play alone**:  the player creates his persona or chooses one already created and a game of five rounds is launched where each time the player gets to choose a category
+* **Two players**: both players create their personas or choose one already created
 ---
 
 Developers:
