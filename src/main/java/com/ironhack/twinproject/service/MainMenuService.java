@@ -1,6 +1,7 @@
 package com.ironhack.twinproject.service;
 
 import com.ironhack.twinproject.dto.Player;
+import com.ironhack.twinproject.repository.PlayerRepository;
 import com.ironhack.twinproject.utils.ConsoleColors;
 import com.ironhack.twinproject.utils.Utils;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,7 @@ public class MainMenuService {
 
     private final PlayerService playerService;
     private final GameMenuService gameMenuService;
+    private final PlayerRepository playerRepository;
 
 
 
@@ -39,14 +41,14 @@ public class MainMenuService {
         do {
             Utils.clearScreen();
             var gameMenu = """                                
-                            \n** Game on - Get your genius cap on **
-                            %s: Choose an option to proceed
-                            ==================================== 
-                            1- Play alone
-                            2- Two players
-                            3- Stats
-                            4- Help
-                            5- Exit
+                            \n \uD83D\uDCA1 Game on - Get your genius cap on \uD83D\uDC52
+                             Choose an option to proceed
+                            ====================s================ 
+                            1- Play alone \uD83E\uDD3E
+                            2- Two players \uD83E\uDD3C
+                            3- Stats \uD83D\uDCC1
+                            4- Help \u270B
+                            5- Exit \uD83C\uDFC3
                             ====================================
                             Type your selection, and press enter:
                             """;
@@ -72,8 +74,32 @@ public class MainMenuService {
                 }
 
                 case "3": {
-                    System.out.println("Show stats");
-                    //show stats table
+                    Utils.printWithColor("SCORE OVERVIEW", ConsoleColors.YELLOW_BOLD);
+                    var totalScore = playerRepository.listPlayersByScore();
+                    var scoreInHistory = playerRepository.listPlayersByScoreInHistory();
+                    var scoreInMusic = playerRepository.listPlayersByScoreInMusic();
+                    var scoreInOlympics = playerRepository.listPlayersByScoreInOlympics();
+                    var scoreInUSCities = playerRepository.listPlayersByScoreInUSCities();
+                    var scoreInCars= playerRepository.listPlayersByScoreInCars();
+
+                    System.out.println("Scores according to the total points:");
+                    Utils.printReportResult(totalScore);
+
+                    System.out.println("Scores in history questions:");
+                    Utils.printReportResult(scoreInHistory);
+
+                    System.out.println("Scores in music questions:");
+                    Utils.printReportResult(scoreInMusic);
+
+                    System.out.println("Scores in Olympics questions:" );
+                    Utils.printReportResult(scoreInOlympics);
+
+                    System.out.println("Scores in US cities questions:");
+                    Utils.printReportResult(scoreInUSCities);
+
+                    System.out.println("Scores in cars questions:");
+                    Utils.printReportResult(scoreInCars);
+
                     break;
                 }
 
