@@ -32,16 +32,15 @@ public class GameMenuService {
     @Autowired
     @Lazy
     MainMenuService mainMenuService;
-    public  void onePlayerGame(Player currentPlayerLogged) {
 
-    public  void onePlayerGame(Player currentPlayerLogged) {
+    public void onePlayerGame(Player currentPlayerLogged) {
 
         int gamePoints = 0;
 
         //5 rounds of questions
         for (int i = 0; i < 5; i++) {
             boolean playNewGame = false;
-            Utils.printWithColor("\n# ROUND " + (i+1) + "/5", ConsoleColors.BLUE_BOLD);
+            Utils.printWithColor("\n# ROUND " + (i + 1) + "/5", ConsoleColors.BLUE_BOLD);
             var category = chooseCategory();
             question = getRandomQuestion(category);
             System.out.println("\nFor " + question.getValue() + " points: ");
@@ -50,24 +49,22 @@ public class GameMenuService {
                 Utils.printWithColor("Congrats, you got the answer right!", ConsoleColors.GREEN_BOLD);
                 Utils.printWithColor("You got " + question.getValue() + " Points", ConsoleColors.GREEN_BOLD);
                 System.out.println("==========================================\n");
-                stopBeforeContinue ();
+                stopBeforeContinue();
                 currentPlayerLogged.addPoints(question.getValue(), category);
                 pointsService.createOrUpdate(currentPlayerLogged.getPoints());
 
                 gamePoints = gamePoints + question.getValue();
-            }
-            else {
+            } else {
                 Utils.printWithColor("You dumb! Answer is not correct", ConsoleColors.RED_BOLD);
                 Utils.printWithColor("The correct answer is " + question.getAnswer(), ConsoleColors.BLUE);
-                stopBeforeContinue ();
+                stopBeforeContinue();
             }
 
-            if  (i == 4) {
-                askToContinue (gamePoints);
+            if (i == 4) {
+                askToContinue(gamePoints);
                 if (getStringInput().equalsIgnoreCase("y")) {
                     i = 0; //counter reset to re-enter in the for to star the game
-                }
-                else {
+                } else {
                     System.out.println("Well played. See you next time");
                     mainMenuService.playerSelectionRoutine();
                     //System.exit(0);
