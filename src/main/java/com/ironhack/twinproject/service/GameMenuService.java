@@ -193,7 +193,7 @@ public class GameMenuService {
             //Question for player 1
             Utils.printWithColor("\n## " + player1.getName().toUpperCase(), ConsoleColors.YELLOW_BOLD);
             var category1 = chooseCategory();
-            player2GamePoints = player2GamePoints + questionForPlayer(player1, category1);
+            player1GamePoints = player1GamePoints + questionForPlayer(player1, category1);
 
             //Question for player 2
             Utils.printWithColor("\n## " + player2.getName().toUpperCase(), ConsoleColors.PURPLE_BOLD);
