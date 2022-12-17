@@ -4,16 +4,20 @@ import com.ironhack.twinproject.dto.Player;
 import com.ironhack.twinproject.repository.PlayerRepository;
 import com.ironhack.twinproject.utils.ConsoleColors;
 import com.ironhack.twinproject.utils.Utils;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
 import java.util.Scanner;
 @RequiredArgsConstructor
 @Service
 public class MainMenuService {
     private final Scanner scanner = new Scanner(System.in);
-    static Long currentPlayerId = null;
-    static Player currentPlayerLogged = null;
+    static Long player1Id = null;
+    static Player player1 = null;
+
+    static Player player2 = null;
+    static Player player2Id = null;
 
     private final PlayerService playerService;
     private final GameMenuService gameMenuService;
@@ -23,16 +27,11 @@ public class MainMenuService {
 
     public void run() throws Exception {
         Utils.clearScreen();
-        Utils.printLogo();
 
-        while (currentPlayerId == null) {
-            playerSelectionRoutine();
-            Utils.printWithColor("\nWelcome " + currentPlayerLogged.getName(), ConsoleColors.WHITE_BOLD_BRIGHT);
-            Utils.pause(1500);
-            loggedUserRoutine();
-        }
+
+        loggedUserRoutine();
     }
-    private void loggedUserRoutine() throws Exception {
+    public void loggedUserRoutine() throws Exception {
 
         String input;
         String[] options;
@@ -40,6 +39,7 @@ public class MainMenuService {
         String[] optionsOriginalCase;
         do {
             Utils.clearScreen();
+            Utils.printLogo();
             var gameMenu = """                                
 
                             \n \uD83D\uDCA1 Game on - Get your genius cap on \uD83D\uDC52
@@ -64,13 +64,24 @@ public class MainMenuService {
             switch (options[0]) {
                 case "1": {
                     System.out.println("You chose a game for one player");
-                    gameMenuService.onePlayerGame(currentPlayerLogged);
+                    do {
+                        player1 = playerSelectionRoutine(1);
+                    } while (player1 == null);
+
+                    gameMenuService.onePlayerGame(player1);
                     break;
                 }
 
                 case "2": {
                     System.out.println("You chose a game for 2 players");
-                    //show 2 people game
+                    do {
+                        player1 = playerSelectionRoutine(1);
+                    } while (player1 == null);
+
+                    do {
+                        player2 = playerSelectionRoutine(2);
+                    } while (player2 == null);
+                    gameMenuService.twoPlayerGame(player1,player2);
                     break;
                 }
 
@@ -105,8 +116,7 @@ public class MainMenuService {
                 }
 
                 case "4": {
-                    System.out.println("Help");
-                    //show help instructions
+                    printHelp();
                     break;
                 }
 
@@ -126,67 +136,124 @@ public class MainMenuService {
         }while(!options[0].equals("exit"));
 
     }
-    public void playerSelectionRoutine() {
+
+    public Player playerSelectionRoutine(int playerNumber) {
         var input = "";
         while (!input.equalsIgnoreCase("EXIT")) {
-            Utils.printWithColor("Available users: ", ConsoleColors.WHITE_BOLD_BRIGHT);
-            var player = playerService.findAll();
-            for (Player p : player) {
-                System.out.printf(ConsoleColors.WHITE_BOLD_BRIGHT+"%s - %s\n"+ConsoleColors.RESET
-                        , p.getId(), p.getName());
-            }
-            Utils.printWithColor("Pick your player, CREATE a new player, or EXIT",
-                    ConsoleColors.WHITE_BOLD_BRIGHT);
-            input = scanner.nextLine();
+            Utils.printWithColor("\n## PLAYER " + playerNumber, ConsoleColors.YELLOW_BOLD);
+            printAllPlayers();
+            input = selectPlayer();
 
-            //USER SELECT AN SPECIFIC PLAYER
+            //USER SELECT AN SPECIFIC PLAYER FROM THE LIST
             if (input.matches("\\d+")) {
                 var selectedId = Long.parseLong(input);
                 var playerFound = playerService.findById(selectedId);
                 if (playerFound.isPresent()) {
-                    currentPlayerId = selectedId;
-                    currentPlayerLogged = playerFound.get();
-                    break;
+                    //player1Id = selectedId;
+                    return playerFound.get();
                 } else {
                     Utils.printWithColor("Not a valid user selection", ConsoleColors.RED);
                     System.out.println();
+                    return null;
                 }
 
             //PLAYER CREATION
             }else if (input.equalsIgnoreCase("create")) {
                 Utils.printWithColor("you want to create a player", ConsoleColors.WHITE_BOLD_BRIGHT);
-                createPlayerRoutine();
+                return createPlayerRoutine();
             }
 
             //COMMAND NOT RECOGNIZED
             else if (!input.equalsIgnoreCase("exit")) {
                 Utils.printWithColor("Unrecognized command!", ConsoleColors.RED);
+                return null;
             }
 
             //APPLICATION EXIT
             else {
                 Utils.printWithColor("Goodbye!", ConsoleColors.WHITE_BOLD_BRIGHT);
                 System.exit(0);
+                return null;
             }
         }
+        return null;
     }
-    private void createPlayerRoutine() {
+    private Player createPlayerRoutine() {
         var input = "";
-        while (!input.equalsIgnoreCase("BACK")) {
+        boolean inputIsOK = true;
+        do  {
             Utils.printWithColor("Enter your name:", ConsoleColors.WHITE_BOLD_BRIGHT);
             input = scanner.nextLine();
             if (input.isEmpty() || input.matches("\\d+")){
                 Utils.printWithColor("Invalid input!", ConsoleColors.RED);
-            } else if(!input.equalsIgnoreCase("BACK")) {
-
-                var player = new Player(input.trim().toLowerCase());
-                playerService.save(player);
-                System.out.printf(ConsoleColors.GREEN_BOLD+
-                                "Congrats! new player created with name: %s\n\n"+
-                                ConsoleColors.RESET,
-                        player.getName(), player.getId());
-                break;
+                inputIsOK = false;
             }
+        } while ((!inputIsOK));
+    //(!input.equalsIgnoreCase("BACK")) ||
+        var player = new Player(input.trim().toLowerCase());
+        playerService.save(player);
+        System.out.printf(ConsoleColors.GREEN_BOLD+
+                        "Congrats! new player created with name: %s\n\n"+
+                        ConsoleColors.RESET,
+                player.getName(), player.getId());
+        return player;
+    }
+
+    public Player logIn () {
+        var player = new Player();
+        while ((player1 == null) || (player2 == null)) {
+            player = playerSelectionRoutine(0);
+            Utils.printWithColor("\nWelcome " + player.getName(), ConsoleColors.WHITE_BOLD_BRIGHT);
+            Utils.pause(1500);
         }
+        return player;
+    }
+
+    public void printAllPlayers () {
+        Utils.printWithColor("Available users: ", ConsoleColors.WHITE_BOLD_BRIGHT);
+        var player = playerService.findAll();
+        for (Player p : player) {
+            System.out.printf(ConsoleColors.WHITE_BOLD_BRIGHT+"%s - %s\n"+ConsoleColors.RESET
+                    , p.getId(), p.getName());
+        }
+
+    }
+
+    public String selectPlayer () {
+        Utils.printWithColor("Pick your player, CREATE a new player, or EXIT",
+                ConsoleColors.WHITE_BOLD_BRIGHT);
+        return scanner.nextLine();
+    }
+
+    private void printHelp() throws IOException {
+        Utils.clearScreen();
+        Utils.printWithColor("""
+                      ___       __ \s
+                |__| |__  |    |__)\s
+                |  | |___ |___ |   \s
+                                  \s
+                """, ConsoleColors.PURPLE_BOLD);
+
+        System.out.println("Triviality\n");
+        Utils.promptEnterKey();
+        System.out.println("**************************************");
+        System.out.println("\nAVAILABLE COMMANDS:");
+
+        System.out.println("\n- 'Help'");
+        System.out.println("    - 'help' : Show info and help.");
+        System.out.println("\n- 'Play alone'");
+        System.out.println("    - the player creates his persona or chooses one already created");
+        System.out.println("    - launches a game of five rounds where each time the player gets to choose a category");
+        System.out.println("\n- 'Two players'");
+        System.out.println("    - both players create their personas or choose one already created");
+        System.out.println("    - launches a game of three rounds where each time the each player gets to choose a category");
+        System.out.println("\n- 'Stats'");
+        System.out.println("    - shows an overview of the players' scores in total and per category");
+        System.out.println("\n- 'Exit'");
+        System.out.println("    - the player can exit the application");
+        Utils.promptEnterKey();
+        System.out.println(ConsoleColors.BLUE + "\nFor support contact: admin@triviality.com");
+        System.out.println(ConsoleColors.WHITE_BOLD_BRIGHT + "**************************************" + ConsoleColors.RESET);
+        Utils.clearScreen();
     }
 }
