@@ -78,10 +78,7 @@ public class GameMenuService {
         System.out.println("Your answer is:");
         return scanner.nextLine();
     }
-/*
-    private void addPoints(Player player, CategoryTypes category, int value) {
-        player.addPoints(value, category);
-    }*/
+
 
     public CategoryTypes chooseCategory () {
         String input;
