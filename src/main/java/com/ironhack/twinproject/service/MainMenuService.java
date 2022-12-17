@@ -41,6 +41,7 @@ public class MainMenuService {
         do {
             Utils.clearScreen();
             var gameMenu = """                                
+
                             \n \uD83D\uDCA1 Game on - Get your genius cap on \uD83D\uDC52
                              Choose an option to proceed
                             ====================s================ 
