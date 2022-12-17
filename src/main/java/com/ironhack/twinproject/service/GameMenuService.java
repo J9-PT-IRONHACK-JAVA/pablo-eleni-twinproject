@@ -34,6 +34,8 @@ public class GameMenuService {
     MainMenuService mainMenuService;
     public  void onePlayerGame(Player currentPlayerLogged) {
 
+    public  void onePlayerGame(Player currentPlayerLogged) {
+
         int gamePoints = 0;
 
         //5 rounds of questions
@@ -91,11 +93,11 @@ public class GameMenuService {
         var categoriesMenu = """                                
                         Pick a category
                         ==================================== 
-                        1- History
-                        2- Music
-                        3- Olympic Games
-                        4- Cars
-                        5- US cities
+                        1- History \uD83D\uDCDA
+                        2- Music \uD83C\uDFB5
+                        3- Olympic Games \uD83C\uDFCA
+                        4- Cars \uD83D\uDE97
+                        5- US cities \uD83C\uDF07
                         ====================================
                         Type your selection, and press enter:
                         """;
